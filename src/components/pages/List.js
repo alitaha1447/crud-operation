@@ -10,7 +10,7 @@ const addStuColor = {
 
 function List() {
   const [students, setStudents] = useState([]);
-  const [status, setStatus] = useState();
+  // const [status, setStatus] = useState();
 
   useEffect(() => {
     async function getAllStudent() {
@@ -22,17 +22,31 @@ function List() {
     getAllStudent();
   }, []);
 
-  async function handleDelete(id) {
+  const handleDelete = (id) => async () => {
     await axios.delete(`http://localhost:3333/students/${id}`);
-    setStatus(true);
-    // var newStudent = students.filter((item) => {
-    //   return item.id !== id;
-    // });
-    // setStudents(newStudent);
-  }
-  if (status) {
-    return <List></List>;
-  }
+
+    var newStudent = students.filter((item) => {
+      console.log("a " + item.id);
+      console.log("b " + id);
+      return item.id !== id;
+    });
+    console.log(newStudent);
+    setStudents(newStudent);
+  };
+  // async function handleDelete(id) {
+  //   await axios.delete(`http://localhost:3333/students/${id}`);
+  //   // setStatus(true);
+  //   var newStudent = students.filter((item) => {
+  //     console.log(item.id);
+  //     console.log(id);
+  //     return item.id === id;
+  //   });
+  //   console.log(newStudent);
+  //   setStudents(newStudent);
+  // }
+  // if (status) {
+  //   return <List></List>;
+  // }
   return (
     <>
       <div className="text-center p-2" style={addStuColor}>
@@ -70,9 +84,10 @@ function List() {
                   <button
                     to={``}
                     className="btn btn-danger  my-1 mx-2"
-                    onClick={() => {
-                      handleDelete(student.id);
-                    }}
+                    onClick={handleDelete(student.id)}
+                    // onClick={() => {
+                    //   handleDelete(student.id);
+                    // }}
                   >
                     <i className="fa fa-trash"></i>
                   </button>
