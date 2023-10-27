@@ -17,7 +17,9 @@ function Home() {
   const [status, setStatus] = useState();
 
   function onTextChange(e) {
-    setStudent({ ...student, [e.target.name]: e.target.value });
+    const update = { ...student };
+    update[e.target.name] = e.target.value;
+    setStudent(update);
   }
 
   async function onFormSubmit(e) {
